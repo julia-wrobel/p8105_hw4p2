@@ -15,3 +15,18 @@ library(janitor)
 
 ### Problem 2
 
+The code below reads, cleans, and merges the `pols-month` and `GDP` data from the 538 datasets.
+
+```{r tidy_data}
+pols = read_csv("data/pols-month.csv") %>%
+  clean_names() %>%
+  mutate(month = lubridate::floor_date(mon, unit = "month")) %>%
+  select(month, prez_dem)
+
+gdp = read_csv("data/GDP.csv", na = ".") %>%
+  clean_names() %>%
+  mutate(month = lubridate::floor_date(date, unit = "month")) %>%
+  select(month, gdp = value)
+
+data_538 = right_join(pols, gdp, by = "month")
+```
