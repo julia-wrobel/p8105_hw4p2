@@ -30,3 +30,14 @@ gdp = read_csv("data/GDP.csv", na = ".") %>%
 
 data_538 = right_join(pols, gdp, by = "month")
 ```
+
+Given these data, we make a plot showing quarterly GDP since 1947; the party of the president is shown through color. 
+
+```{r}
+data_538 %>%
+  mutate(prez_party = recode(prez_dem, `1` = "democrat", `0` = "republican")) %>% 
+  ggplot(aes(x = month, y = gdp, color = prez_party)) + 
+  geom_point()
+```
+
+Although quarterly GDP has varied substantially in the last 60 years, it is not immediately obvious that the president's party is a useful predictor of GDP. 
